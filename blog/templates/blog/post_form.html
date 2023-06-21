@@ -7,6 +7,6 @@
   <form action="{% url 'blog:write' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit">
+    <input type="submit" class="btn btn-outline-success">
   </form>
 {% endblock %}

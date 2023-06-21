@@ -9,6 +9,8 @@ urlpatterns = [
     path("", views.List.as_view(), name='list'),
     # 글 작성
     path("write/", views.Write.as_view(), name='write'),
+    # 글 상세 조회
+    path("detail/<int:pk>/", views.Detail.as_view(), name='detail'), # /blog/detail/1
     # 글 수정
     # 글 삭제
     # 코멘트 작성
