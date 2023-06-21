@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
+from django.views.generic import ListView, CreateView
 from .models import Post
 from .forms import PostForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 # def index(request):
@@ -37,3 +39,14 @@ def write(request):
     else:
         form = PostForm()
         return render(request, 'blog/write.html', {'form': form})
+
+# django.views.generic -> ListView
+class List(ListView):
+    model = Post
+    context_object_name = 'post_list'
+
+
+class Write(CreateView):
+    model = Post
+    form_class = PostForm
+    success_url = reverse_lazy('blog:list')
