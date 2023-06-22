@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import ListView, CreateView, DetailView
-from .models import Post
-from .forms import PostForm
-from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
+from django.urls import reverse_lazy, reverse
 
 # Create your views here.
 # def index(request):
@@ -14,6 +14,8 @@ from django.urls import reverse_lazy
 #     # 에러, 예외처리
 #     return HttpResponse('No!!!')
 
+# 일반 뷰로 만든것
+### Post
 class Index(View):
     def get(self, request):
         # return HttpResponse('Index page GET class')
@@ -56,3 +58,41 @@ class Detail(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
+
+class Update(UpdateView):
+    model = Post
+    template_name = 'blog/post_edit.html'
+    fields = ['title', 'content']
+    success_url = reverse_lazy('blog:list')
+    # initial 기능
+    def get_initial(self):
+        initial = super().get_initial() # UpdateView에서 제공하는 initial(딕셔너리 형태)
+        post = self.get_object() # pk 기반으로 객체를 가져옴
+        initial['title'] = post.title
+        initial['content'] = post.content
+        return initial
+
+    def get_success_url(self):
+        post = self.get_object() # pk 기반으로 현재 객체 가져오기
+        return reverse('blog:detail', kwargs={'pk': post.pk})
+
+
+class Delete(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:list')
+
+
+### Comment
+class CommentWrite(View):
+    # def get(self, request):
+    #     pass
+    def post(self, request, post_id):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # 사용자에게 댓글 내용을 받아옴
+            content = form.cleaned_data['content']
+            # 해당 아이디에 해당하는 글 불러옴
+            post = Post.objects.get(pk=post_id)
+            # 댓글 객체 생성
+            comment = Comment.objects.Create(post=post, content=content) # 데이터베이스에 직접 접근하여 create한 것이므로 변수 save를 해줄 필요가 없음
+            return redirect('blog:list', pk=post_id)
