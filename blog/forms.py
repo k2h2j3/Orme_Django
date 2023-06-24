@@ -16,3 +16,13 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': '3', 'cols': '35'})
+        }
+
+### TagForm
+# class HashTagForm(forms.ModelForm):
+
+#     class MEta:
+#         model = HashTag
+#         fields= ['name']
