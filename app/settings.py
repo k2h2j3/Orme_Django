@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+# Auth user
+AUTH_USER_MODEL = 'user.User'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m62_e36irgg$ytk_qj&4e6h91_a3m9lc0j3m0+l_b=keaz#z=z'
+SECRET_KEY = 'django-insecure-9@o$2xraddb1(&2zw%pzgj^fyjd(vixj0#&^u4(=kj**+^^x56'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -105,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr' # 한국어
+LANGUAGE_CODE = 'ko-kr'  # 한국어
 
 TIME_ZONE = 'Asia/Seoul' # 한국 시간
 
